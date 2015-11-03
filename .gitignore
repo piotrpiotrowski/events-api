@@ -1,0 +1,17 @@
+/.gradle
+/docker/tomcat/*.war
+/events-api.iml
+/build
+/events-web/events-web.iml
+/events-web/build
+/events-core/events-core.iml
+/events-core/build
+/events-core/genetated
+/.idea
+/events-api.iws
+/events-api.ipr
+/rest-failed/rest-failed.iml
+/rest-failed/build
+/http-problem/http-problem.iml
+/http-problem/build
+/out

@@ -1,0 +1,43 @@
+allprojects {
+    apply plugin: "idea"
+}
+
+idea {
+    project {
+        languageLevel = '1.8'
+        vcs = 'Git'
+    }
+}
+
+if (!project.hasProperty('profile')) {
+    ext.profile = 'local'
+}
+println ":${project.property('name')}: Active build and spring profile: ${project.property('profile')}"
+
+subprojects {
+    version = '1.0'
+
+    apply plugin: 'java'
+    apply plugin: 'groovy'
+    apply from: '../extensions/provided.gradle'
+
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    configurations {
+        all*.exclude group: 'commons-logging'
+    }
+
+    dependencies {
+        compile 'org.apache.logging.log4j:log4j-api:2.3'
+        compile 'org.apache.logging.log4j:log4j-core:2.3'
+        compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.3'
+        compile 'org.codehaus.groovy:groovy-all:2.4.1'
+        provided 'org.projectlombok:lombok:1.16.6'
+        testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+        testCompile 'org.spockframework:spock-spring:1.0-groovy-2.4'
+        testCompile 'org.springframework:spring-test:4.2.0.RELEASE'
+    }
+}

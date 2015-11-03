@@ -1,0 +1,10 @@
+war.doLast {
+    println ":${project.property('name')}: Copy war to ../docker/tomcat and rename to events-api"
+    copy {
+        from("${buildDir}/libs") {
+            rename "(.*)web-${version}(.*)", '$1api$2'
+        }
+        into "../docker/tomcat"
+        include '*.war'
+    }
+}
