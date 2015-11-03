@@ -90,8 +90,8 @@ public class RestHandlerExceptionResolverBuilder {
         map.put(HttpMessageNotReadableException.class, DefaultRestExceptionHandler.createForUnprocessableEntity());
         map.put(HttpMessageNotWritableException.class, DefaultRestExceptionHandler.createForInternalServerError());
         map.put(MissingServletRequestPartException.class, DefaultRestExceptionHandler.createForBadRequest());
-        map.put(Exception.class, DefaultRestExceptionHandler.createForInternalServerError());
         map.put(NoHandlerFoundException.class, DefaultRestExceptionHandler.<NoSuchRequestHandlingMethodException>createForNotFound());
+        map.put(Exception.class, DefaultRestExceptionHandler.createForInternalServerError());
         map.put(RestFailedException.class, new RestFailedExceptionHandler());
         return map;
     }

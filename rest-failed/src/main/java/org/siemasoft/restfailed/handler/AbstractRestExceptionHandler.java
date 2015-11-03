@@ -44,10 +44,8 @@ abstract class AbstractRestExceptionHandler<E extends Exception> implements Rest
         String msg = String.format("%s %s ~> %s", request.getMethod(), uri, httpStatus);
         if (httpStatus.value() >= 500) {
             log.error(msg, exception);
-        } else if (log.isDebugEnabled()) {
-            log.debug(msg, exception);
         } else {
-            log.info(msg);
+            log.debug(msg, exception);
         }
     }
 }

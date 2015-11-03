@@ -6,13 +6,13 @@ import org.springframework.http.HttpStatus;
 
 import java.util.Collections;
 
-public class NoFoundException extends RestFailedException {
+public class NotFoundException extends RestFailedException {
 
-    public NoFoundException(ProblemDetail problemDetail) {
+    public NotFoundException(ProblemDetail problemDetail) {
         this(problemDetail, null);
     }
 
-    public NoFoundException(ProblemDetail problemDetail, Throwable cause) {
+    public NotFoundException(ProblemDetail problemDetail, Throwable cause) {
         super(problemDetail.getMessage(), cause, Problems.notFound(Collections.singletonList(problemDetail)), HttpStatus.NOT_FOUND);
     }
 }

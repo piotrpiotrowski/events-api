@@ -1,10 +1,10 @@
 package org.siemasoft.events.web.service.exception;
 
 import lombok.Getter;
-import org.siemasoft.restfailed.exception.NoFoundException;
+import org.siemasoft.restfailed.exception.NotFoundException;
 
 @Getter
-public class EventNotFoundException extends NoFoundException {
+public class EventNotFoundException extends NotFoundException {
 
     public static final String KEY = "event.not.found";
 

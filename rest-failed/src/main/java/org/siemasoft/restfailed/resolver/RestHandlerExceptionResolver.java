@@ -76,13 +76,7 @@ public class RestHandlerExceptionResolver extends AbstractHandlerExceptionResolv
 
     @Override
     protected ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception exception) {
-        ResponseEntity<?> entity;
-        try {
-            entity = handleException(exception, request);
-        } catch (NoExceptionHandlerFoundException ex) {
-            log.warn("No exception handler found to handle exception: {}", exception.getClass().getName());
-            return null;
-        }
+        ResponseEntity<?> entity = handleException(exception, request);
         try {
             processResponse(entity, new ServletWebRequest(request, response));
         } catch (Exception ex) {
@@ -96,6 +90,10 @@ public class RestHandlerExceptionResolver extends AbstractHandlerExceptionResolv
     protected ResponseEntity<?> handleException(Exception exception, HttpServletRequest request) {
         request.removeAttribute(PRODUCIBLE_MEDIA_TYPES_ATTRIBUTE);
         RestExceptionHandler handler = resolveExceptionHandler(exception.getClass());
+        if (handler == null) {
+            log.warn("No exception handler found to handle exception: {}", exception.getClass().getName());
+            return null;
+        }
         log.debug("Handling exception {} with response factory: {}", exception.getClass().getName(), handler);
         return handler.handleException(exception, request);
     }
@@ -106,7 +104,7 @@ public class RestHandlerExceptionResolver extends AbstractHandlerExceptionResolv
                 return exceptionHandlers.get(clazz);
             }
         }
-        throw new NoExceptionHandlerFoundException();
+        return null;
     }
 
     protected void processResponse(ResponseEntity<?> entity, NativeWebRequest webRequest) throws Exception {
