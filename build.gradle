@@ -3,10 +3,8 @@ allprojects {
 }
 
 idea {
-    project {
-        languageLevel = '1.8'
-        vcs = 'Git'
-    }
+    project.languageLevel = '1.8'
+    project.vcs = 'Git'
 }
 
 if (!project.hasProperty('profile')) {
