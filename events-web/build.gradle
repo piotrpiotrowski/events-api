@@ -2,23 +2,28 @@ apply plugin: 'war'
 
 apply from: "profiles/${project.property('profile')}.gradle"
 
-dependencies {
-    compile project(':events-core')
-    compile project(':rest-failed')
-    testCompile project(path: ':events-core', configuration: 'testOutput')
-    compile 'org.springframework:spring-context:4.2.0.RELEASE'
-    compile 'org.springframework:spring-webmvc:4.2.0.RELEASE'
-    compile 'org.springframework:spring-tx:4.2.0.RELEASE'
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.6.1'
-    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.6.1'
-    compile 'org.hibernate:hibernate-validator:5.2.1.Final'
-    compile 'javax.el:javax.el-api:2.2.4'
-    compile 'org.glassfish.web:javax.el:2.2.4'
-    providedCompile 'javax.servlet:javax.servlet-api:3.0.1'
-    testCompile 'org.easytesting:fest-assert:1.4'
+ext {
+    jacksonVersion = "2.6.1"
+    elApiVarsion = "2.2.4"
 }
 
-import org.apache.tools.ant.filters.*
+dependencies {
+    compile project(":events-core")
+    compile project(":rest-failed")
+    testCompile project(path: ":events-core", configuration: "testOutput")
+    compile "org.springframework:spring-context:$springVersion"
+    compile "org.springframework:spring-webmvc:$springVersion"
+    compile "org.springframework:spring-tx:$springVersion"
+    compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion"
+    compile "org.hibernate:hibernate-validator:5.2.1.Final"
+    compile "javax.el:javax.el-api:$elApiVarsion"
+    compile "org.glassfish.web:javax.el:$elApiVarsion"
+    providedCompile "javax.servlet:javax.servlet-api:$servletApiVersion"
+    testCompile "org.easytesting:fest-assert:1.4"
+}
+
+import org.apache.tools.ant.filters.ReplaceTokens
 
 processResources {
     include '**/*.properties'

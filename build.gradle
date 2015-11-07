@@ -28,14 +28,21 @@ subprojects {
         all*.exclude group: 'commons-logging'
     }
 
+    ext {
+        log4j2Version = "2.3"
+        springVersion = "4.2.0.RELEASE"
+        servletApiVersion = "3.0.1"
+        groovyVersion = "1.0-groovy-2.4"
+    }
+
     dependencies {
-        compile 'org.apache.logging.log4j:log4j-api:2.3'
-        compile 'org.apache.logging.log4j:log4j-core:2.3'
-        compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.3'
-        compile 'org.codehaus.groovy:groovy-all:2.4.1'
-        provided 'org.projectlombok:lombok:1.16.6'
-        testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
-        testCompile 'org.spockframework:spock-spring:1.0-groovy-2.4'
-        testCompile 'org.springframework:spring-test:4.2.0.RELEASE'
+        compile "org.apache.logging.log4j:log4j-api:$log4j2Version"
+        compile "org.apache.logging.log4j:log4j-core:$log4j2Version"
+        compile "org.apache.logging.log4j:log4j-slf4j-impl:$log4j2Version"
+        compile "org.codehaus.groovy:groovy-all:2.4.1"
+        provided "org.projectlombok:lombok:1.16.6"
+        testCompile "org.spockframework:spock-core:$groovyVersion"
+        testCompile "org.spockframework:spock-spring:$groovyVersion"
+        testCompile "org.springframework:spring-test:$springVersion"
     }
 }

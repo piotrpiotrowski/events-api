@@ -1,15 +1,20 @@
+ext {
+    hibernateVarsion = "5.0.0.Final"
+    h2databaseVarsion = "1.4.188"
+}
+
 apply from: "profiles/${project.property('profile')}.gradle"
 
 dependencies {
-    compile 'com.zaxxer:HikariCP:2.2.5'
-    compile 'org.hibernate:hibernate-entitymanager:5.0.0.Final'
-    compile 'org.hibernate:hibernate-java8:5.0.0.Final'
-    compile 'org.springframework:spring-core:4.2.0.RELEASE'
-    compile 'org.springframework:spring-context:4.2.0.RELEASE'
-    compile 'org.springframework:spring-orm:4.2.0.RELEASE'
-    compile 'org.springframework:spring-jdbc:4.2.0.RELEASE'
-    compile 'org.springframework.data:spring-data-jpa:1.9.0.RELEASE'
-    testCompile 'com.h2database:h2:1.4.188'
+    compile "com.zaxxer:HikariCP:2.2.5"
+    compile "org.hibernate:hibernate-entitymanager:$hibernateVarsion"
+    compile "org.hibernate:hibernate-java8:$hibernateVarsion"
+    compile "org.springframework:spring-core:$springVersion"
+    compile "org.springframework:spring-context:$springVersion"
+    compile "org.springframework:spring-orm:$springVersion"
+    compile "org.springframework:spring-jdbc:$springVersion"
+    compile "org.springframework.data:spring-data-jpa:1.9.0.RELEASE"
+    testCompile "com.h2database:h2:$h2databaseVarsion"
 }
 
 configurations {

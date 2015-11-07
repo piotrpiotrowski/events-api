@@ -2,18 +2,18 @@ apply plugin: 'java'
 
 dependencies {
 
-    compile project(':http-problem')
+    compile project(":http-problem")
 
-    compile 'com.fasterxml.jackson.core:jackson-annotations:2.6.1'
-    provided('org.springframework:spring-core:4.2.0.RELEASE') {
-        exclude group: 'commons-logging', module: 'commons-logging'
+    compile "com.fasterxml.jackson.core:jackson-annotations:2.6.1"
+    provided("org.springframework:spring-core:$springVersion") {
+        exclude group: "commons-logging", module: "commons-logging"
     }
 
-    provided('org.springframework:spring-beans:4.2.0.RELEASE') {
-        exclude group: 'org.springframework', module: 'spring-expression'
+    provided("org.springframework:spring-beans:$springVersion") {
+        exclude group: "org.springframework", module: "spring-expression"
     }
 
-    provided 'org.springframework:spring-webmvc:4.2.0.RELEASE'
-    provided 'org.springframework:spring-web:4.2.0.RELEASE'
-    provided 'javax.servlet:javax.servlet-api:3.0.1'
+    provided "org.springframework:spring-webmvc:$springVersion"
+    provided "org.springframework:spring-web:$springVersion"
+    provided "javax.servlet:javax.servlet-api:$servletApiVersion"
 }
