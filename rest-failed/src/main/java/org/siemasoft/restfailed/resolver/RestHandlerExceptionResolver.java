@@ -67,15 +67,17 @@ public class RestHandlerExceptionResolver extends AbstractHandlerExceptionResolv
 
     @Override
     public void afterPropertiesSet() {
+        FixedContentNegotiationStrategy fixedContentNegotiationStrategy = new FixedContentNegotiationStrategy(defaultContentType);
         if (contentNegotiationManager == null) {
-            contentNegotiationManager = new ContentNegotiationManager(new HeaderContentNegotiationStrategy(), new FixedContentNegotiationStrategy(defaultContentType));
+            HeaderContentNegotiationStrategy headerContentNegotiationStrategy = new HeaderContentNegotiationStrategy();
+            contentNegotiationManager = new ContentNegotiationManager(headerContentNegotiationStrategy, fixedContentNegotiationStrategy);
         }
         responseProcessor = new HttpEntityMethodProcessor(messageConverters, contentNegotiationManager);
-        fallbackResponseProcessor = new HttpEntityMethodProcessor(messageConverters, new ContentNegotiationManager(new FixedContentNegotiationStrategy(defaultContentType)));
+        fallbackResponseProcessor = new HttpEntityMethodProcessor(messageConverters, new ContentNegotiationManager(fixedContentNegotiationStrategy));
     }
 
     @Override
-    protected ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception exception) {
+    public ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception exception) {
         ResponseEntity<?> entity = handleException(exception, request);
         try {
             processResponse(entity, new ServletWebRequest(request, response));
@@ -87,7 +89,7 @@ public class RestHandlerExceptionResolver extends AbstractHandlerExceptionResolv
     }
 
     @SuppressWarnings("unchecked")
-    protected ResponseEntity<?> handleException(Exception exception, HttpServletRequest request) {
+    private ResponseEntity<?> handleException(Exception exception, HttpServletRequest request) {
         request.removeAttribute(PRODUCIBLE_MEDIA_TYPES_ATTRIBUTE);
         RestExceptionHandler handler = resolveExceptionHandler(exception.getClass());
         if (handler == null) {
@@ -98,7 +100,7 @@ public class RestHandlerExceptionResolver extends AbstractHandlerExceptionResolv
         return handler.handleException(exception, request);
     }
 
-    protected RestExceptionHandler<? extends Exception> resolveExceptionHandler(Class<? extends Exception> exceptionClass) {
+    private RestExceptionHandler<? extends Exception> resolveExceptionHandler(Class<? extends Exception> exceptionClass) {
         for (Class clazz = exceptionClass; clazz != Throwable.class; clazz = clazz.getSuperclass()) {
             if (exceptionHandlers.containsKey(clazz)) {
                 return exceptionHandlers.get(clazz);
@@ -107,7 +109,7 @@ public class RestHandlerExceptionResolver extends AbstractHandlerExceptionResolv
         return null;
     }
 
-    protected void processResponse(ResponseEntity<?> entity, NativeWebRequest webRequest) throws Exception {
+    private void processResponse(ResponseEntity<?> entity, NativeWebRequest webRequest) throws Exception {
         MethodParameter methodParameter = new MethodParameter(returnTypeMethodParam);
         ModelAndViewContainer mavContainer = new ModelAndViewContainer();
         try {
