@@ -21,7 +21,7 @@ import java.time.LocalDateTime
 import static org.siemasoft.events.web.service.assertion.ProblemDetailAssertion.assertThat
 
 @WebAppConfiguration
-@ActiveProfiles("local")
+@ActiveProfiles("development")
 @ContextConfiguration(classes = WebConfiguration.class)
 class EventServiceTest extends Specification {
 
@@ -143,7 +143,7 @@ class EventServiceTest extends Specification {
     @Unroll("should throws EventNotFoundException when event does not exist in method: #method")
     def "should throws EventNotFoundException when event does not exist"() {
         when:
-        eventService."$method"(* params)
+        eventService."$method"(*params)
 
         then:
         def exception = thrown(EventNotFoundException)

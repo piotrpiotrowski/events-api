@@ -8,7 +8,7 @@ idea {
 }
 
 if (!project.hasProperty('profile')) {
-    ext.profile = 'local'
+    ext.profile = 'development'
 }
 println ":${project.property('name')}: Active build and spring profile: ${project.property('profile')}"
 

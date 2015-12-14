@@ -2,6 +2,7 @@ package org.siemasoft.events.core.spring;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -18,6 +19,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
+@Log4j2
 @Configuration
 @EnableJpaRepositories({PackagesToScan.JPA_REPOSITORY, PackagesToScan.JPA_ENTITY})
 @ComponentScan(PackagesToScan.CORE)
@@ -25,6 +27,9 @@ public class CoreConfiguration {
 
     @Autowired
     private Environment environment;
+
+    @Autowired
+    private PropertyResolver propertyResolver;
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
@@ -34,33 +39,35 @@ public class CoreConfiguration {
     @Bean(destroyMethod = "close")
     public DataSource dataSource() {
         HikariConfig dataSourceConfig = new HikariConfig();
-        dataSourceConfig.setDriverClassName(environment.getRequiredProperty("db.driver"));
-        dataSourceConfig.setJdbcUrl(environment.getRequiredProperty("db.host") + environment.getRequiredProperty("db.database"));
-        dataSourceConfig.setUsername(environment.getRequiredProperty("db.username"));
-        dataSourceConfig.setPassword(environment.getRequiredProperty("db.password"));
+        dataSourceConfig.setDriverClassName(propertyResolver.getRequiredProperty("db_driver"));
+        dataSourceConfig.setJdbcUrl(propertyResolver.getRequiredProperty("db_host") + propertyResolver.getRequiredProperty("db_database"));
+        dataSourceConfig.setUsername(propertyResolver.getRequiredProperty("db_username"));
+        dataSourceConfig.setPassword(propertyResolver.getRequiredProperty("db_password"));
+        log.info("siema {},{},{},{}", dataSourceConfig.getDataSourceClassName(), dataSourceConfig.getJdbcUrl(), dataSourceConfig.getUsername(), dataSourceConfig.getPassword());
         return new HikariDataSource(dataSourceConfig);
     }
 
     @Bean
-    LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setDataSource(dataSource);
         entityManagerFactoryBean.setPackagesToScan(PackagesToScan.JPA_REPOSITORY, PackagesToScan.JPA_ENTITY);
         HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
-        jpaVendorAdapter.setShowSql(environment.getRequiredProperty("hibernate.show_sql", Boolean.class));
-        jpaVendorAdapter.setGenerateDdl(environment.getRequiredProperty("hibernate.generate_ddl", Boolean.class));
-        jpaVendorAdapter.setDatabase(environment.getRequiredProperty("hibernate.database", Database.class));
+        boolean hibernate_show_sql = Boolean.parseBoolean(propertyResolver.getRequiredProperty("hibernate_show_sql"));
+        jpaVendorAdapter.setShowSql(hibernate_show_sql);
+        jpaVendorAdapter.setGenerateDdl(environment.getRequiredProperty("hibernate_generate_ddl", Boolean.class));
+        jpaVendorAdapter.setDatabase(environment.getRequiredProperty("hibernate_database", Database.class));
         entityManagerFactoryBean.setJpaVendorAdapter(jpaVendorAdapter);
         Properties jpaProperties = new Properties();
-        jpaProperties.put("hibernate.ejb.naming_strategy", environment.getRequiredProperty("hibernate.ejb.naming_strategy"));
-        jpaProperties.put("hibernate.format_sql", environment.getRequiredProperty("hibernate.format_sql"));
-        jpaProperties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("hibernate.hbm2ddl.auto"));
+        jpaProperties.put("hibernate.ejb.naming_strategy", environment.getRequiredProperty("hibernate_ejb_naming_strategy"));
+        jpaProperties.put("hibernate.format_sql", propertyResolver.getRequiredProperty("hibernate_format_sql"));
+        jpaProperties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("hibernate_hbm2ddl_auto"));
         entityManagerFactoryBean.setJpaProperties(jpaProperties);
         return entityManagerFactoryBean;
     }
 
     @Bean
-    JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+    public JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory);
         return transactionManager;

@@ -13,4 +13,8 @@ public class URL {
     public static final String EVENTS_BY_WEEK = EVENTS + "/week/{" + Params.YEAR + "}/{" + Params.WEEK + "}";
 
     public static final String OVERDUE_EVENT = EVENTS + "/overdue";
+
+    public static String getAll() {
+        return null;
+    }
 }

@@ -22,12 +22,3 @@ dependencies {
     providedCompile "javax.servlet:javax.servlet-api:$servletApiVersion"
     testCompile "org.easytesting:fest-assert:1.4"
 }
-
-import org.apache.tools.ant.filters.ReplaceTokens
-
-processResources {
-    include '**/*.properties'
-    filter ReplaceTokens, tokens: [
-            "profile": project.property('profile')
-    ]
-}

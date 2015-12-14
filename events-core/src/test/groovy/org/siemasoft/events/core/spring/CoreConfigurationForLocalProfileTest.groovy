@@ -10,7 +10,7 @@ import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
 
 
-@ActiveProfiles("local")
+@ActiveProfiles("development")
 @ContextConfiguration(classes = CoreConfiguration.class)
 class CoreConfigurationForLocalProfileTest extends Specification {
 
