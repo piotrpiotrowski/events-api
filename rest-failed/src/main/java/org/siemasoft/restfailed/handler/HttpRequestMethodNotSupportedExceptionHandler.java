@@ -23,9 +23,10 @@ public class HttpRequestMethodNotSupportedExceptionHandler extends AbstractRestE
     @Override
     public HttpHeaders createHeaders(HttpRequestMethodNotSupportedException exception, HttpServletRequest request) {
         HttpHeaders headers = super.createHeaders(exception, request);
-        if (!StringUtils.isEmpty(exception.getSupportedMethods())) {
-            headers.setAllow(exception.getSupportedHttpMethods());
+        if (StringUtils.isEmpty(exception.getSupportedMethods())) {
+            return headers;
         }
+        headers.setAllow(exception.getSupportedHttpMethods());
         return headers;
     }
 }

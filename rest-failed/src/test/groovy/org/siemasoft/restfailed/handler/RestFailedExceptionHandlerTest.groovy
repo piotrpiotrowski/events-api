@@ -19,8 +19,8 @@ class RestFailedExceptionHandlerTest extends Specification {
 
     RestFailedExceptionHandler restFailedExceptionHandler = new RestFailedExceptionHandler()
 
-    @Unroll("should create response with #exception.problem as body and status code: #statusCode")
-    def "should create response with problem as body and status code"() {
+    @Unroll
+    def "should create response with #exception.problem as body and status code: #statusCode"() {
         given:
         HttpServletRequest request = Mock(HttpServletRequest)
 

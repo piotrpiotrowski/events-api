@@ -23,8 +23,9 @@ import java.util.List;
 @EnableSpringDataWebSupport
 @Import(CoreConfiguration.class)
 @ComponentScan(basePackages = {"org.siemasoft.events.web"})
-@PropertySource(value = {"classpath:spring.properties"})
 public class WebConfiguration extends WebMvcConfigurerAdapter {
+
+    public static final String[] ALLOWED_REST_METHODS = new String[]{"GET", "POST", "PUT", "DELETE"};
 
     @Autowired
     private PropertyResolver propertyResolver;
@@ -53,6 +54,8 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOrigins(propertyResolver.getRequiredProperty("allowed_origins"));
+        registry.addMapping("/**")
+                .allowedOrigins(propertyResolver.getRequiredProperty("allowed_origins"))
+                .allowedMethods(ALLOWED_REST_METHODS);
     }
 }

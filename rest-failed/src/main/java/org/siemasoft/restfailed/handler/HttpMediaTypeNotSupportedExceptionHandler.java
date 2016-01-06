@@ -5,12 +5,12 @@ import org.siemasoft.httpproblem.Problems;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-import static org.springframework.util.CollectionUtils.isEmpty;
 
 public class HttpMediaTypeNotSupportedExceptionHandler extends AbstractRestExceptionHandler<HttpMediaTypeNotSupportedException> {
 
@@ -27,9 +27,10 @@ public class HttpMediaTypeNotSupportedExceptionHandler extends AbstractRestExcep
     public HttpHeaders createHeaders(HttpMediaTypeNotSupportedException exception, HttpServletRequest request) {
         HttpHeaders headers = super.createHeaders(exception, request);
         List<MediaType> mediaTypes = exception.getSupportedMediaTypes();
-        if (!isEmpty(mediaTypes)) {
-            headers.setAccept(mediaTypes);
+        if (CollectionUtils.isEmpty(mediaTypes)) {
+            return headers;
         }
+        headers.setAccept(mediaTypes);
         return headers;
     }
 }

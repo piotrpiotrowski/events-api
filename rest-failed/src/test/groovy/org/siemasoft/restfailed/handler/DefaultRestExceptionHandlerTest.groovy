@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest
 
 class DefaultRestExceptionHandlerTest extends Specification {
 
-    @Unroll("should create response with #problem as body and status code: #statusCode")
+    @Unroll
     def "should create response with #problem as body and status code: #statusCode"() {
         given:
         HttpServletRequest request = Mock(HttpServletRequest)

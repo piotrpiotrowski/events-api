@@ -36,16 +36,15 @@ abstract class AbstractRestExceptionHandler<E extends Exception> implements Rest
         return httpStatus;
     }
 
-    protected <E extends Exception> void logException(E exception, HttpServletRequest request) {
+    private void logException(Exception exception, HttpServletRequest request) {
         String uri = request.getRequestURI();
         if (request.getQueryString() != null) {
             uri += '?' + request.getQueryString();
         }
-        String msg = String.format("%s %s ~> %s", request.getMethod(), uri, httpStatus);
         if (httpStatus.value() >= 500) {
-            log.error(msg, exception);
+            log.error("{} {} ~> {}", exception, request.getMethod(), uri, httpStatus);
         } else {
-            log.debug(msg, exception);
+            log.debug("{} {} ~> {}", exception, request.getMethod(), uri, httpStatus);
         }
     }
 }

@@ -10,7 +10,7 @@ import org.springframework.core.env.Environment;
 
 @Configuration
 @Profile("development")
-@PropertySource(value = {"classpath:database.properties", "classpath:hibernate/development.properties"})
+@PropertySource(value = {"classpath:database-development.properties", "classpath:hibernate/development.properties"})
 public class DevelopmentCoreConfiguration {
 
     @Autowired

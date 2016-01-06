@@ -2,7 +2,6 @@ package org.siemasoft.events.core.spring;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -19,7 +18,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-@Log4j2
 @Configuration
 @EnableJpaRepositories({PackagesToScan.JPA_REPOSITORY, PackagesToScan.JPA_ENTITY})
 @ComponentScan(PackagesToScan.CORE)
@@ -43,7 +41,6 @@ public class CoreConfiguration {
         dataSourceConfig.setJdbcUrl(propertyResolver.getRequiredProperty("db_host") + propertyResolver.getRequiredProperty("db_database"));
         dataSourceConfig.setUsername(propertyResolver.getRequiredProperty("db_username"));
         dataSourceConfig.setPassword(propertyResolver.getRequiredProperty("db_password"));
-        log.info("siema {},{},{},{}", dataSourceConfig.getDataSourceClassName(), dataSourceConfig.getJdbcUrl(), dataSourceConfig.getUsername(), dataSourceConfig.getPassword());
         return new HikariDataSource(dataSourceConfig);
     }
 
