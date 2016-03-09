@@ -62,14 +62,14 @@ public class EventService {
         if (event.getFinished() != null) {
             throw new EventFinishedAlreadyException(event.getId(), event.getFinished());
         }
-        LocalDateTime eventFinishedDate = eventModel.getFinished();
-        if (eventFinishedDate != null) {
-            if (event.getStarted().isAfter(eventFinishedDate)) {
-                throw new FinishedBeforeStartedException(event.getId(), eventFinishedDate, event.getStarted());
+        LocalDateTime finishedDateFromModel = eventModel.getFinished();
+        if (finishedDateFromModel != null) {
+            if (event.getStarted().isAfter(finishedDateFromModel)) {
+                throw new FinishedBeforeStartedException(event.getId(), finishedDateFromModel, event.getStarted());
             }
-            LocalDateTime eventStartedDate = eventModel.getStarted();
-            if (eventStartedDate != null && !event.getStarted().equals(eventStartedDate)) {
-                throw new DateChangeForbiddenException("Cannot change started date when finished provided", "started", eventStartedDate);
+            LocalDateTime startedDateFromModel = eventModel.getStarted();
+            if (startedDateFromModel != null && !event.getStarted().equals(startedDateFromModel)) {
+                throw new DateChangeForbiddenException("Cannot change started date when finished provided", "started", startedDateFromModel);
             }
         }
     }

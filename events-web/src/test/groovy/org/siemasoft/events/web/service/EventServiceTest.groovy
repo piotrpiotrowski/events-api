@@ -140,8 +140,8 @@ class EventServiceTest extends Specification {
         eventService.eventRepository = eventRepository
     }
 
-    @Unroll("should throws EventNotFoundException when event does not exist in method: #method")
-    def "should throws EventNotFoundException when event does not exist"() {
+    @Unroll
+    def "should throws EventNotFoundException when event does not exist in method: #method"() {
         when:
         eventService."$method"(*params)
 
@@ -343,8 +343,8 @@ class EventServiceTest extends Specification {
         exception.httpStatus == HttpStatus.FORBIDDEN
     }
 
-    @Unroll("should update event field: #fieldName")
-    def "should update event"() {
+    @Unroll
+    def "should update event field: #fieldName"() {
         given:
         EventModel eventModel = new EventModel()
         eventModel.title = "event title"

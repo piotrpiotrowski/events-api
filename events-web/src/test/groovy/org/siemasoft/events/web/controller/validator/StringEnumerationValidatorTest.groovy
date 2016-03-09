@@ -9,8 +9,8 @@ class StringEnumerationValidatorTest extends Specification {
 
     StringEnumerationValidator validator = new StringEnumerationValidator();
 
-    @Unroll("should return #expectedResult when try to build priority with #givenPriorityValue")
-    def "should return true when priority value is enum member or null"() {
+    @Unroll
+    def "should return #expectedResult when try to build priority with #givenPriorityValue"() {
         given:
         StringEnumeration stringEnumeration = Mock(StringEnumeration)
         stringEnumeration.value() >> EventPriority.class

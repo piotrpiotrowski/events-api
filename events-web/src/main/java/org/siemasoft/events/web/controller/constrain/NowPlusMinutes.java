@@ -12,7 +12,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface NowPlusMinutes {
 
-    String message() default "Date must be greater than or equal to now plus number of minutes: {value}";
+    String message() default "Minimum value for this date is now plus {value} minute(s)";
 
     Class<?>[] groups() default {};
 

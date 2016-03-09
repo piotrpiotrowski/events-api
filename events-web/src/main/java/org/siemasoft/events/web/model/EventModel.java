@@ -32,7 +32,7 @@ public class EventModel implements Linkable {
     private String priority;
 
     @NotNull(groups = Create.class)
-    @NowPlusMinutes(value = 1, groups = Create.class)
+    @NowPlusMinutes(value = 1, groups = {Create.class, Update.class})
     private LocalDateTime started;
 
     @Null(groups = Create.class)

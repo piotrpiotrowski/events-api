@@ -55,8 +55,8 @@ class EventModelValidatorTest extends Specification {
         errors.getErrorCount() == 0
     }
 
-    @Unroll("should pass validation when #caseName")
-    def "should pass validation when "() {
+    @Unroll
+    def "should pass validation when #caseName"() {
         given:
         EventModel eventModel = new EventModel()
         eventModel.started = started

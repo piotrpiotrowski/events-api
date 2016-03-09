@@ -12,8 +12,8 @@ class NowPlusMinutesValidatorTest extends Specification {
 
     NowPlusMinutesValidator validator = new NowPlusMinutesValidator()
 
-    @Unroll("should return #expectedResult when given event finished date time is #givenDateTime")
-    def "should return true when event started date time is greater than or equal to now plus 1 minute"() {
+    @Unroll
+    def "should return #expectedResult when event started date time is greater than or equal to now plus #givenDateTime minute(s)"() {
         given:
         NowPlusMinutes nowPlusMinutes = Mock(NowPlusMinutes)
         nowPlusMinutes.value() >> 1
@@ -32,8 +32,8 @@ class NowPlusMinutesValidatorTest extends Specification {
         LocalDateTime.now().plusMinutes(100)                               | true
     }
 
-    @Unroll("should return #expectedResult when given event finished date time is #givenDateTime")
-    def "should return true when event finished date time is greater than or equal to now"() {
+    @Unroll
+    def "should return expectedResult when event finished date time is greater than or equal to now"() {
         given:
         NowPlusMinutes nowPlusMinutes = Mock(NowPlusMinutes)
         nowPlusMinutes.value() >> 0
